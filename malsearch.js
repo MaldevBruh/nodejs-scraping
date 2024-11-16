@@ -9,7 +9,7 @@ async function malSearch(query) {
       message: 'Prompt is required'
     }
   }
-  const url = `https://myanimelist.net/search/prefix.json?type=all&keyword=${encodeURIComponent(query)}&v=1`;
+  const URL = `https://myanimelist.net/search/prefix.json?type=all&keyword=${encodeURIComponent(query)}&v=1`;
 
   const formData = new FormData();
   formData.append('type', 'all');
@@ -24,7 +24,7 @@ async function malSearch(query) {
     'x-requested-with': 'XMLHttpRequest'
   }
   try {
-    const { data } = await axios.post(url, formData, { headers });
+    const { data } = await axios.post(URL, formData, { headers });
     const exactMatch = data.categories[0].items.find(item => item.name.toLowerCase() === query.toLowerCase());
     let anime;
     if(exactMatch) {
@@ -57,6 +57,7 @@ async function malSearch(query) {
     const type = $('span:contains("Type")').next('a').text();
     const studios = $('span:contains("Studios")').next('a').text();
     const premiered = $('span:contains("Premiered")').next('a').text();
+    const url = anime.url;
     const synopsis = $('p[itemprop="description"]').text().replace('\n\n[Written by MAL Rewrite]', '');
     return {
       status: true,
@@ -70,6 +71,7 @@ async function malSearch(query) {
         type,
         studios,
         premiered,
+        url,
         synopsis
       }
     }
