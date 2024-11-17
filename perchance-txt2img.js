@@ -78,7 +78,7 @@ class imgBB { // ImgBB Uploader Created by Daffa Code
 
 const imgbb = new imgBB();
 
-async function perchance(prompt, style = 'unreal image') {
+async function perchanceTXT2IMG(prompt, style = 'unreal image') {
   const form = new FormData();
   form.append('prompt', prompt);
 
@@ -91,8 +91,8 @@ async function perchance(prompt, style = 'unreal image') {
   }
 
   try {
-    const { data: userKey } = await axios.get('https://image-generation.perchance.org/api/verifyUser?thread=4&__cacheBust=0.1');
-    const { data } = await axios.post(`https://image-generation.perchance.org/api/generate?prompt=(${encodeURIComponent(prompt)}), ${encodeURIComponent(style)}&seed=-1&resolution=512x768&guidanceScale=7&negativePrompt=nothing&channel=ai-text-to-image-generator&subChannel=public&userKey=${userKey.userKey}&adAccessCode=&requestId=0.1&__cacheBust=0.1`, form, { headers });
+    const { data: userKey } = await axios.get(`https://image-generation.perchance.org/api/verifyUser?thread=4&__cacheBust=${Math.random()}`);
+    const { data } = await axios.post(`https://image-generation.perchance.org/api/generate?prompt=(${encodeURIComponent(prompt)}), ${encodeURIComponent(style)}&seed=-1&resolution=512x768&guidanceScale=7&negativePrompt=nothing&channel=ai-text-to-image-generator&subChannel=public&userKey=${userKey.userKey}&adAccessCode=&requestId=${Math.random()}&__cacheBust=${Math.random()}`, form, { headers });
     const imageUrl = await imgbb.upload('https://image-generation.perchance.org/api/downloadTemporaryImage?imageId=' + data.imageId, 'Selamanya')
     return {
       ok: true,
@@ -102,13 +102,13 @@ async function perchance(prompt, style = 'unreal image') {
     return {
       ok: false,
       result: {},
-      error: e || e.message
+      error: e.response?.data || e.message
     }
   }
 }
 
 // Example of usage:
 
-perchance('a pretty elf girl', 'anime image')
+perchanceTXT2IMG('a pretty elf girl', 'anime image')
   .then(res => console.log(res))
   .catch(err => console.error(err));
