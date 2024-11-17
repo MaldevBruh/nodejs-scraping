@@ -9,6 +9,7 @@ async function publer(url) {
   let res;
 
   do {
+    if(attempts > 5) break;
     attempts++;
     try {
       const response = await (await fetch('https://app.publer.io/hooks/media', {
@@ -38,7 +39,6 @@ async function publer(url) {
         message: error.message
       }
     }
-    if(attempts < 5) break;
   } while(!res.status);
   return res;
 }
