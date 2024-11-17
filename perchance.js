@@ -79,8 +79,6 @@ class imgBB { // ImgBB Uploader Created by Daffa Code
 const imgbb = new imgBB();
 
 async function perchance(prompt, style = 'unreal image') {
-  const url = `https://image-generation.perchance.org/api/generate?prompt=(${encodeURIComponent(prompt)}), ${encodeURIComponent(style)}&seed=-1&resolution=512x768&guidanceScale=7&negativePrompt=nothing&channel=ai-text-to-image-generator&subChannel=public&userKey=5137ba9850c489019b7dd7f719bc0c0ec44e8bcbce7ecfd5b360d484faeb59dc&adAccessCode=&requestId=0.7158877576785883&__cacheBust=0.8306168254723392`;
-
   const form = new FormData();
   form.append('prompt', prompt);
 
@@ -93,16 +91,18 @@ async function perchance(prompt, style = 'unreal image') {
   }
 
   try {
-    const { data } = await axios.post(url, form, { headers });
+    const { data: userKey } = await axios.get('https://image-generation.perchance.org/api/verifyUser?thread=4&__cacheBust=0.1');
+    const { data } = await axios.post(`https://image-generation.perchance.org/api/generate?prompt=(${encodeURIComponent(prompt)}), ${encodeURIComponent(style)}&seed=-1&resolution=512x768&guidanceScale=7&negativePrompt=nothing&channel=ai-text-to-image-generator&subChannel=public&userKey=${userKey.userKey}&adAccessCode=&requestId=0.1&__cacheBust=0.1`, form, { headers });
     const imageUrl = await imgbb.upload('https://image-generation.perchance.org/api/downloadTemporaryImage?imageId=' + data.imageId, 'Selamanya')
     return {
-      status: true,
+      ok: true,
       result: imageUrl.image.url
     }
   } catch(e) {
     return {
-      status: false,
-      message: e.message
+      ok: false,
+      result: {},
+      error: e || e.message
     }
   }
 }
