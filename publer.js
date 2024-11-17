@@ -1,10 +1,10 @@
 /*
-  ** Scrape https://publer.io/tools/youtube-downloader (YouTube Downloader)
+  Scrape https://publer.io/tools/media-downloader (AIO Downloader)
 */
 
 import fetch from 'node-fetch';
 
-async function publerYTDL(url) {
+async function publer(url) {
   let attempts = 0;
   let res;
 
@@ -38,13 +38,14 @@ async function publerYTDL(url) {
         message: error.message
       }
     }
+    if(attempts < 5) break;
   } while(!res.status);
   return res;
 }
 
 // Example of usage:
 
-publerYTDL('https://youtu.be/QnMmgcXvuvw?si=62SZa8ROh2SnO6jr').then(res => console.log(res));
+publer('https://www.tiktok.com/@igoyymlbb/video/7420439330251967749?is_from_webapp=1&sender_device=pc').then(res => console.log(res));
 
 /*
 
