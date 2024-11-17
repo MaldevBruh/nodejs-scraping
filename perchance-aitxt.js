@@ -1,3 +1,5 @@
+// Scrape https://perchance.org/ai-text-generator (AI Text Generator)
+
 import axios from 'axios';
 
 async function perchanceAITXT(prompt) {

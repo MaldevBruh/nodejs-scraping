@@ -1,5 +1,5 @@
 /*
-  - Scrape https://perchance.org (AI Image Generator)
+  Scrape https://perchance.org/ai-text-to-image-generator (AI Image Generator)
 */
 
 import axios from 'axios';
