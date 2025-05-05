@@ -21,6 +21,8 @@ async function openAI(content) {
 
 // Example of usage:
 
-openAI('bagaimana cara agar jago koding')
-  .then(res => console.log(res))
-  .catch(e => console.error(e));
+// openAI('bagaimana cara agar jago koding')
+//   .then(res => console.log(res))
+//   .catch(e => console.error(e));
+
+export { openAI };
